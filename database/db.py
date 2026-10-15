@@ -16,13 +16,16 @@ def get_db():
 def init_db():
     with get_db() as db:
         db.executescript("""
+            
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
+                role TEXT NOT NULL DEFAULT 'buyer',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
+
 
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY,
@@ -57,6 +60,16 @@ def init_db():
                 FOREIGN KEY(product_id) REFERENCES products(id)
             );
         """)
+
+        user_columns = [
+            row["name"]
+            for row in db.execute("PRAGMA table_info(users)").fetchall()
+        ]
+
+        if "role" not in user_columns:
+            db.execute(
+                "ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'buyer'"
+            )
 
 
 if __name__ == "__main__":

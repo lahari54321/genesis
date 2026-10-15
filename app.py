@@ -8,7 +8,11 @@ from functools import wraps
 from database.db import init_db
 from models.user_model import create_user, authenticate_user
 
-
+from models.admin_model import (
+    get_admin_stats,
+    get_recent_products,
+    delete_product
+)
 
 from models.product_model import (
     seed_products,
@@ -38,6 +42,21 @@ def login_required(function):
         return function(*args, **kwargs)
     return wrapper
 
+def admin_required(function):
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        if "user_id" not in session:
+            flash("Please log in first.", "error")
+            return redirect(url_for("login"))
+
+        if session.get("role") != "admin":
+            flash("You do not have permission to access that page.", "error")
+            return redirect(url_for("home"))
+
+        return function(*args, **kwargs)
+
+    return wrapper
+
 
 @app.route("/")
 def home():
@@ -64,6 +83,7 @@ def register():
             user = authenticate_user(email, password)
             session["user_id"] = user["id"]
             session["user"] = user["name"]
+            session["role"] = user["role"]
             flash(message, "success")
             return redirect(url_for("home"))
 
@@ -84,6 +104,7 @@ def login():
             session.clear()
             session["user_id"] = user["id"]
             session["user"] = user["name"]
+            session["role"] = user["role"]
             flash("Login successful!", "success")
             return redirect(url_for("home"))
 
@@ -200,6 +221,27 @@ def my_bids():
     bids = get_user_bids(session["user_id"])
     return render_template("buyer/my_bids.html", bids=bids)
 
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    stats = get_admin_stats()
+    products = get_recent_products()
+
+    return render_template(
+        "admin/dashboard.html",
+        stats=stats,
+        products=products
+    )
+
+
+@app.post("/admin/delete-product/<int:product_id>")
+@admin_required
+def admin_delete_product(product_id):
+    success, message = delete_product(product_id)
+
+    flash(message, "success" if success else "error")
+    return redirect(url_for("admin_dashboard"))
 
 
 @app.errorhandler(404)

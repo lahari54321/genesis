@@ -1,0 +1,102 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">VEYRA ADMINISTRATION</p>
+            <h1>Admin Dashboard</h1>
+            <p>Monitor marketplace activity and manage listings.</p>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="btn btn-primary">
+            View Marketplace
+        </a>
+    </div>
+
+    <div class="seller-stats">
+        <div class="stat-card">
+            <p>Registered Users</p>
+            <h2>{{ stats.total_users }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Products</p>
+            <h2>{{ stats.total_products }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Live Auctions</p>
+            <h2>{{ stats.live_auctions }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Bids</p>
+            <h2>{{ stats.total_bids }}</h2>
+        </div>
+    </div>
+
+    <h2 class="subheading">Recent Product Listings</h2>
+
+    {% if products %}
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Seller</th>
+                        <th>Current Price</th>
+                        <th>Status</th>
+                        <th>Bids</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>
+                            <strong>{{ product.name }}</strong>
+                            <small>{{ product.category }}</small>
+                        </td>
+
+                        <td>{{ product.seller }}</td>
+
+                        <td>₹{{ "{:,}".format(product.price) }}</td>
+
+                        <td>
+                            <span class="status-pill {{ 'is-live' if product.status == 'LIVE' else '' }}">
+                                {{ product.status }}
+                            </span>
+                        </td>
+
+                        <td>{{ product.bids }}</td>
+
+                        <td>
+                            <form
+                                method="POST"
+                                action="{{ url_for('admin_delete_product', product_id=product.id) }}"
+                                onsubmit="return confirm('Are you sure you want to permanently delete this listing and its bid history?');"
+                            >
+                                <button
+                                    type="submit"
+                                    class="button admin-delete-btn"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>No products found</h3>
+            <p>Product listings will appear here when available.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

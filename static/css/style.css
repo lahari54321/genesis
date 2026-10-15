@@ -1130,3 +1130,64 @@ button, input {
         gap: 25px;
     }
 }
+
+
+
+/* ===== VEYRA MY BIDS PAGE ===== */
+
+.my-bids-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.my-bid-card {
+    display: flex;
+    gap: 22px;
+    padding: 20px;
+    border: 1px solid #39304f;
+    border-radius: 16px;
+    background: #191525;
+}
+
+.my-bid-image {
+    width: 190px;
+    min-height: 170px;
+    align-self: stretch;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.my-bid-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.my-bid-info h3 {
+    margin: 8px 0 14px;
+}
+
+.my-bid-info p:not(.eyebrow) {
+    color: #c5b8d8;
+    margin: 8px 0;
+}
+
+.my-bid-info strong {
+    color: #e0d2ff;
+}
+
+.my-bid-info .status-pill {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+    .my-bid-card {
+        flex-direction: column;
+    }
+
+    .my-bid-image {
+        width: 100%;
+        height: 200px;
+    }
+}
