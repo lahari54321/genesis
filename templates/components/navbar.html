@@ -23,10 +23,14 @@
         {% if session.get('user') %}
             <a href="{{ url_for('dashboard') }}">Reminders</a>
             <a class="button small" href="{{ url_for('logout') }}">Log out</a>
-        
             {% else %}
             <a href="{{ url_for('login') }}">Log in</a>
             <a class="button small" href="{{ url_for('register') }}">Join Veyra ↗</a>
         {% endif %}
+        
+        {% if session.get('user_id') %}
+             <a href="{{ url_for('seller_dashboard') }}">Seller Dashboard</a>
+        {% endif %}
+
     </div>
 </header>

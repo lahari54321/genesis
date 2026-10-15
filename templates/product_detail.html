@@ -1,0 +1,102 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<section class="product-detail-section">
+    <a href="{{ url_for('home') }}" class="back-link">
+        ← Back to Marketplace
+    </a>
+
+    <div class="product-detail-layout">
+        <div class="product-detail-image">
+            <img
+                src="{{ product.image }}"
+                alt="{{ product.name }}"
+            >
+        </div>
+
+        <div class="product-detail-info">
+            <p class="eyebrow">{{ product.category }}</p>
+
+            <h1>{{ product.name }}</h1>
+
+            <p class="product-seller">
+                Listed by <strong>{{ product.seller }}</strong>
+            </p>
+
+            <div class="detail-price-card">
+                <p>Current Bid</p>
+                <h2>₹{{ "{:,}".format(product.price) }}</h2>
+                <span>{{ product.bids }} bids placed</span>
+            </div>
+
+            <div class="auction-status">
+                <span class="status-dot"></span>
+                {{ product.status }}
+            </div>
+
+            <p class="product-description">
+                {{ product.description }}
+            </p>
+
+            <p class="auction-time">
+                <strong>Auction time:</strong> {{ product.time }}
+            </p>
+
+            {% if product.status == "LIVE" %}
+                {% if session.get('user_id') %}
+                    <form
+                        method="POST"
+                        action="{{ url_for('bid', product_id=product.id) }}"
+                        class="detail-bid-form"
+                    >
+                        <label for="amount">Your Bid (₹)</label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            min="{{ product.price + 1 }}"
+                            step="1"
+                            placeholder="Enter more than ₹{{ product.price }}"
+                            required
+                        >
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Place Bid
+                        </button>
+                    </form>
+                {% else %}
+                    <p class="login-prompt">
+                        Please log in to participate in this auction.
+                    </p>
+
+                    <a href="{{ url_for('login') }}" class="btn btn-primary">
+                        Log In to Bid
+                    </a>
+                {% endif %}
+            {% else %}
+                <div class="upcoming-notice">
+                    <h3>Auction Coming Soon</h3>
+                    <p>This item is not accepting bids yet.</p>
+
+                    {% if session.get('user_id') %}
+                        <form
+                            method="POST"
+                            action="{{ url_for('remind', product_id=product.id) }}"
+                        >
+                            <button type="submit" class="btn btn-primary">
+                                Remind Me
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-primary">
+                            Log In for Reminders
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

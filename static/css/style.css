@@ -967,3 +967,166 @@ button, input {
         padding: 22px;
     }
 }
+
+
+
+/* ===== VEYRA PRODUCT DETAILS PAGE ===== */
+
+.product-detail-section {
+    width: min(1150px, 92%);
+    margin: 35px auto 60px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #c7aaff;
+    text-decoration: none;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 42px;
+    align-items: start;
+}
+
+.product-detail-image {
+    overflow: hidden;
+    border: 1px solid #39304f;
+    border-radius: 20px;
+    background: #191525;
+}
+
+.product-detail-image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.product-detail-info h1 {
+    margin: 8px 0 12px;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.product-seller {
+    color: #b8afc9;
+    margin-bottom: 25px;
+}
+
+.detail-price-card {
+    padding: 22px;
+    margin: 20px 0;
+    border: 1px solid #51406f;
+    border-radius: 16px;
+    background: #20192f;
+}
+
+.detail-price-card p {
+    margin: 0 0 8px;
+    color: #c5b8d8;
+}
+
+.detail-price-card h2 {
+    margin: 0 0 8px;
+    color: #d8c3ff;
+    font-size: 2rem;
+}
+
+.detail-price-card span {
+    color: #b8afc9;
+    font-size: 0.9rem;
+}
+
+.auction-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    margin-bottom: 18px;
+    border-radius: 20px;
+    background: #292044;
+    color: #d8c3ff;
+    font-size: 0.85rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #a98aff;
+}
+
+.product-description {
+    line-height: 1.8;
+    color: #d1c9df;
+}
+
+.auction-time {
+    margin: 18px 0;
+    color: #c5b8d8;
+}
+
+.detail-bid-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.detail-bid-form label {
+    font-weight: 600;
+}
+
+.detail-bid-form input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #514563;
+    border-radius: 9px;
+    background: #100d18;
+    color: #ffffff;
+    font: inherit;
+}
+
+.detail-bid-form input:focus {
+    outline: 2px solid #9b78e8;
+}
+
+.view-details-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #c7aaff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.view-details-link:hover,
+.back-link:hover {
+    color: #e1d3ff;
+}
+
+.login-prompt,
+.upcoming-notice {
+    margin-top: 22px;
+    padding: 20px;
+    border: 1px solid #39304f;
+    border-radius: 14px;
+    background: #191525;
+}
+
+.upcoming-notice h3 {
+    margin-top: 0;
+}
+
+.upcoming-notice p {
+    color: #b8afc9;
+}
+
+@media (max-width: 760px) {
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}

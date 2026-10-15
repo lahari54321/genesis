@@ -8,15 +8,18 @@ from functools import wraps
 from database.db import init_db
 from models.user_model import create_user, authenticate_user
 
+
 from models.product_model import (
     seed_products,
     get_all_products,
+    get_product,
     place_bid,
     save_reminder,
     get_user_reminders,
     create_product,
     get_seller_products
 )
+
 
 
 app = Flask(__name__)
@@ -106,7 +109,7 @@ def bid(product_id):
     )
     flash(message, "success" if success else "error")
 
-    return redirect(url_for("home"))
+    return redirect(url_for("product_detail", product_id=product_id))
 
 
 @app.post("/remind/<int:product_id>")
@@ -174,6 +177,18 @@ def add_product():
 
     return render_template("seller/add_product.html")
 
+
+@app.route("/product/<int:product_id>")
+def product_detail(product_id):
+    product = get_product(product_id)
+
+    if not product:
+        return render_template("errors/404.html"), 404
+
+    return render_template(
+        "product_detail.html",
+        product=product
+    )
 
 
 
