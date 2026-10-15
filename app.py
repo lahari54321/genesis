@@ -26,7 +26,8 @@ from models.product_model import (
     get_user_bids,
     initialize_auction_times,
     refresh_auction_statuses,
-    get_remaining_time
+    get_remaining_time,
+    get_auction_winner
 )
 
 app = Flask(__name__)
@@ -208,6 +209,7 @@ def add_product():
     return render_template("seller/add_product.html")
 
 
+
 @app.route("/product/<int:product_id>")
 def product_detail(product_id):
     refresh_auction_statuses()
@@ -218,7 +220,16 @@ def product_detail(product_id):
 
     product["time"] = get_remaining_time(product)
 
-    return render_template("product_detail.html", product=product)
+    winner = None
+    if product["status"] == "ENDED":
+        winner = get_auction_winner(product_id)
+
+    return render_template(
+        "product_detail.html",
+        product=product,
+        winner=winner
+    )
+
 
 @app.route("/my-bids")
 @login_required

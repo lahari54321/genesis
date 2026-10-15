@@ -39,9 +39,28 @@
                 {{ product.description }}
             </p>
 
-            <p class="auction-time">
-                <strong>Auction time:</strong> {{ product.time }}
-            </p>
+            
+<p class="auction-time">
+    <strong>
+        {% if product.status == "UPCOMING" %}
+            Starts in:
+        {% elif product.status == "LIVE" %}
+            Time remaining:
+        {% else %}
+            Status:
+        {% endif %}
+    </strong>
+
+    {% if product.status != "ENDED" %}
+        <span
+            class="auction-countdown"
+            data-target="{{ product.starts_at if product.status == 'UPCOMING' else product.ends_at }}"
+        >{{ product.time }}</span>
+    {% else %}
+        Auction ended
+    {% endif %}
+</p>
+
 
             {% if product.status == "LIVE" %}
                 {% if session.get('user_id') %}
@@ -67,12 +86,24 @@
                         </button>
                     </form>
                 
-            {% elif product.status == "ENDED" %}
-                <div class="upcoming-notice">
-                <h3>Auction Ended</h3>
-                <p>This auction is closed. No more bids can be placed.</p>
-                </div>
-            {% endif %}
+            
+                {% if product.status == "ENDED" %}
+                    <div class="winner-card">
+                    {% if winner %}
+                        <p class="eyebrow">AUCTION RESULT</p>
+                        <h3>🏆 Winning Bid</h3>
+                        <p>Winner: <strong>{{ winner.winner_name }}</strong></p>
+                        <p>
+                            Winning amount:
+                            <strong>₹{{ "{:,}".format(winner.amount) }}</strong>
+                        </p>
+                    {% else %}
+                        <h3>Auction Ended</h3>
+                        <p>No bids were placed on this item.</p>
+                    {% endif %}
+                    </div>
+                {% endif %}
+
 
                 {% else %}
                     <p class="login-prompt">

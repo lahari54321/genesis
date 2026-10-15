@@ -16,7 +16,19 @@
     <div class="auction-body">
         <div class="auction-meta">
             <span>{{ product.seller }}</span>
-            <span>◷ {{ product.time }}</span>
+            
+<span>
+    ◷
+    {% if product.status != "ENDED" %}
+        <span
+            class="auction-countdown"
+            data-target="{{ product.starts_at if product.status == 'UPCOMING' else product.ends_at }}"
+        >{{ product.time }}</span>
+    {% else %}
+        Auction ended
+    {% endif %}
+</span>
+
         </div>
 
         <h3>{{ product.name }}</h3>

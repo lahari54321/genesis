@@ -350,3 +350,23 @@ def get_remaining_time(product):
     if hours:
         return f"{hours}h {minutes}m left"
     return f"{minutes} min left"
+
+
+def get_auction_winner(product_id):
+    with get_db() as db:
+        row = db.execute(
+            """
+            SELECT
+                b.amount,
+                b.created_at,
+                u.name AS winner_name
+            FROM bids b
+            JOIN users u ON u.id = b.user_id
+            WHERE b.product_id = ?
+            ORDER BY b.amount DESC, b.created_at ASC, b.id ASC
+            LIMIT 1
+            """,
+            (product_id,)
+        ).fetchone()
+
+    return dict(row) if row else None
