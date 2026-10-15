@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">BUYER CENTRE</p>
+            <h1>My Bids</h1>
+            <p>Track the bids you have placed on Veyra.</p>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="btn btn-primary">
+            Explore Auctions
+        </a>
+    </div>
+
+    {% if bids %}
+        <div class="my-bids-list">
+            {% for bid in bids %}
+                <article class="my-bid-card">
+                    <img
+                        src="{{ bid.image }}"
+                        alt="{{ bid.name }}"
+                        class="my-bid-image"
+                    >
+
+                    <div class="my-bid-info">
+                        <p class="eyebrow">{{ bid.category }}</p>
+                        <h3>{{ bid.name }}</h3>
+
+                        <p>
+                            Your bid:
+                            <strong>₹{{ "{:,}".format(bid.my_bid) }}</strong>
+                        </p>
+
+                        <p>
+                            Current bid:
+                            <strong>₹{{ "{:,}".format(bid.current_price) }}</strong>
+                        </p>
+
+                        <span class="status-pill {{ 'is-live' if bid.status == 'LIVE' else '' }}">
+                            {{ bid.status }}
+                        </span>
+
+                        <div>
+                            <a
+                                href="{{ url_for('product_detail', product_id=bid.product_id) }}"
+                                class="view-details-link"
+                            >
+                                View Auction →
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>You haven't placed any bids yet</h3>
+            <p>Explore live auctions and place your first bid.</p>
+            <a href="{{ url_for('home') }}" class="btn btn-primary">
+                Browse Auctions
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

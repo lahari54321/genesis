@@ -202,3 +202,30 @@ def get_seller_products(seller):
         ).fetchall()
 
     return [dict(row) for row in rows]
+
+
+
+def get_user_bids(user_id):
+    with get_db() as db:
+        rows = db.execute(
+            """
+            SELECT
+                b.id AS bid_id,
+                b.amount AS my_bid,
+                b.created_at AS bid_time,
+                p.id AS product_id,
+                p.name,
+                p.category,
+                p.image,
+                p.price AS current_price,
+                p.status,
+                p.seller
+            FROM bids b
+            JOIN products p ON p.id = b.product_id
+            WHERE b.user_id = ?
+            ORDER BY b.created_at DESC, b.id DESC
+            """,
+            (user_id,)
+        ).fetchall()
+
+    return [dict(row) for row in rows]

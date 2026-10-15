@@ -9,6 +9,7 @@ from database.db import init_db
 from models.user_model import create_user, authenticate_user
 
 
+
 from models.product_model import (
     seed_products,
     get_all_products,
@@ -17,8 +18,10 @@ from models.product_model import (
     save_reminder,
     get_user_reminders,
     create_product,
-    get_seller_products
+    get_seller_products,
+    get_user_bids
 )
+
 
 
 
@@ -189,6 +192,13 @@ def product_detail(product_id):
         "product_detail.html",
         product=product
     )
+
+
+@app.route("/my-bids")
+@login_required
+def my_bids():
+    bids = get_user_bids(session["user_id"])
+    return render_template("buyer/my_bids.html", bids=bids)
 
 
 

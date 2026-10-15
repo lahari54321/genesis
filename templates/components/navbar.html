@@ -30,6 +30,7 @@
         
         {% if session.get('user_id') %}
              <a href="{{ url_for('seller_dashboard') }}">Seller Dashboard</a>
+            <a href="{{ url_for('my_bids') }}">My Bids</a>
         {% endif %}
 
     </div>
