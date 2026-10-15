@@ -1,0 +1,142 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home | MarketPlace{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="container hero-content">
+        <p class="eyebrow">YOUR NEXT GREAT FIND</p>
+
+        <h1>Discover products you'll love.</h1>
+
+        <p>
+            Explore interesting finds from sellers in one convenient place.
+        </p>
+
+        <a href="{{ url_for('products') }}" class="button">
+            Explore Products
+        </a>
+    </div>
+</section>
+
+<section class="categories container">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">EXPLORE</p>
+            <h2>Shop by category</h2>
+        </div>
+    </div>
+
+    <div class="category-list">
+        <a href="{{ url_for('products') }}" class="category-card">
+            <span class="category-icon">💻</span>
+            <span>Electronics</span>
+        </a>
+
+        <a href="{{ url_for('products') }}" class="category-card">
+            <span class="category-icon">👕</span>
+            <span>Fashion</span>
+        </a>
+
+        <a href="{{ url_for('products') }}" class="category-card">
+            <span class="category-icon">📚</span>
+            <span>Books</span>
+        </a>
+
+        <a href="{{ url_for('products') }}" class="category-card">
+            <span class="category-icon">🏠</span>
+            <span>Home & Living</span>
+        </a>
+    </div>
+</section>
+
+<section class="featured container">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">HANDPICKED FINDS</p>
+            <h2>Featured products</h2>
+        </div>
+
+        <a href="{{ url_for('products') }}" class="text-link">
+            View all products →
+        </a>
+    </div>
+
+    <div class="product-grid">
+
+        <article class="product-card">
+            <div class="product-image product-image-blue">
+                <span>🎧</span>
+            </div>
+            <div class="product-info">
+                <p class="product-category">Electronics</p>
+                <h3>Wireless Headphones</h3>
+                <p class="product-price">₹1,499</p>
+                <a href="{{ url_for('products') }}" class="product-link">
+                    View product
+                </a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <div class="product-image product-image-pink">
+                <span>⌚</span>
+            </div>
+            <div class="product-info">
+                <p class="product-category">Accessories</p>
+                <h3>Classic Wrist Watch</h3>
+                <p class="product-price">₹899</p>
+                <a href="{{ url_for('products') }}" class="product-link">
+                    View product
+                </a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <div class="product-image product-image-green">
+                <span>🎒</span>
+            </div>
+            <div class="product-info">
+                <p class="product-category">Fashion</p>
+                <h3>Everyday Backpack</h3>
+                <p class="product-price">₹749</p>
+                <a href="{{ url_for('products') }}" class="product-link">
+                    View product
+                </a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <div class="product-image product-image-yellow">
+                <span>📷</span>
+            </div>
+            <div class="product-info">
+                <p class="product-category">Electronics</p>
+                <h3>Compact Digital Camera</h3>
+                <p class="product-price">₹3,299</p>
+                <a href="{{ url_for('products') }}" class="product-link">
+                    View product
+                </a>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<section class="seller-banner">
+    <div class="container seller-content">
+        <div>
+            <p class="eyebrow">SELL SOMETHING NEW TO SOMEONE</p>
+            <h2>Have something to sell?</h2>
+            <p>List your products and give them a new home.</p>
+        </div>
+
+        <a href="{{ url_for('register') }}" class="button button-light">
+            Start Selling
+        </a>
+    </div>
+</section>
+
+{% endblock %}
