@@ -1191,3 +1191,67 @@ button, input {
         height: 200px;
     }
 }
+
+
+/* ===== VEYRA ADMIN DASHBOARD ===== */
+
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #39304f;
+    border-radius: 14px;
+    background: #191525;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px;
+    border-bottom: 1px solid #39304f;
+    white-space: nowrap;
+}
+
+.admin-table th {
+    color: #c7aaff;
+    font-size: 0.85rem;
+    background: #20192f;
+}
+
+.admin-table td {
+    color: #e1d9ee;
+}
+
+.admin-table td small {
+    display: block;
+    margin-top: 5px;
+    color: #a99dbb;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-delete-btn {
+    padding: 8px 12px;
+    border: 1px solid #854b65;
+    border-radius: 8px;
+    background: #3b1e30;
+    color: #ffd7e3;
+    cursor: pointer;
+}
+
+.admin-delete-btn:hover {
+    background: #54243d;
+}
+
+@media (max-width: 650px) {
+    .admin-table th,
+    .admin-table td {
+        padding: 12px;
+    }
+}
