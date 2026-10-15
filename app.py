@@ -7,13 +7,17 @@ from functools import wraps
 
 from database.db import init_db
 from models.user_model import create_user, authenticate_user
+
 from models.product_model import (
     seed_products,
     get_all_products,
     place_bid,
     save_reminder,
-    get_user_reminders
+    get_user_reminders,
+    create_product,
+    get_seller_products
 )
+
 
 app = Flask(__name__)
 app.secret_key = "veyra-demo-change-this-key"
@@ -125,6 +129,10 @@ def dashboard():
         "buyer/dashboard.html",
         reminders=reminders
     )
+
+
+
+
 
 
 @app.errorhandler(404)
