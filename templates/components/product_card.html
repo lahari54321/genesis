@@ -49,6 +49,18 @@
                 Place bid ↗
             </button>
         </form>
+        
+        {% elif product.status == 'UPCOMING' %}
+            <form method="post"
+            action="{{ url_for('remind', product_id=product.id) }}">
+            <button class="button outline-btn reserve-btn" type="submit">
+            ♧ Remind me
+            </button>
+            </form>
+        {% else %}
+    <p class="muted-label">AUCTION ENDED</p>
+{% endif %}
+
         {% else %}
         <form method="post"
               action="{{ url_for('remind', product_id=product.id) }}">

@@ -37,7 +37,9 @@ def init_db():
                 bids INTEGER DEFAULT 0,
                 image TEXT NOT NULL,
                 description TEXT NOT NULL,
-                time TEXT NOT NULL
+                time TEXT NOT NULL,
+                starts_at TEXT,
+                ends_at TEXT
             );
 
             CREATE TABLE IF NOT EXISTS bids (
@@ -70,6 +72,19 @@ def init_db():
             db.execute(
                 "ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'buyer'"
             )
+            
+        
+        columns = [
+            row["name"]
+            for row in db.execute("PRAGMA table_info(products)").fetchall()
+        ]
+
+        if "starts_at" not in columns:
+            db.execute("ALTER TABLE products ADD COLUMN starts_at TEXT")
+
+        if "ends_at" not in columns:
+            db.execute("ALTER TABLE products ADD COLUMN ends_at TEXT")
+
 
 
 if __name__ == "__main__":

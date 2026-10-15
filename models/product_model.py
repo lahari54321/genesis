@@ -1,6 +1,6 @@
 
 from database.db import get_db
-
+from datetime import datetime, timedelta
 
 INITIAL_PRODUCTS = [
     (
@@ -150,7 +150,11 @@ def get_user_reminders(user_id):
 
 
 
-def create_product(name, category, price, image, description, status, seller):
+
+def create_product(
+    name, category, price, image, description, status, seller,
+    starts_at, ends_at
+):
     name = name.strip()
     category = category.strip().upper()
     image = image.strip()
@@ -162,8 +166,24 @@ def create_product(name, category, price, image, description, status, seller):
     if price <= 0:
         return False, "Price must be greater than zero."
 
-    if status not in ("LIVE", "UPCOMING"):
-        return False, "Please select a valid auction status."
+    if not starts_at or not ends_at:
+        return False, "Please select the auction start and end times."
+
+    try:
+        start = datetime.fromisoformat(starts_at)
+        end = datetime.fromisoformat(ends_at)
+    except ValueError:
+        return False, "Please enter valid auction dates and times."
+
+    now = datetime.now()
+
+    if start < now:
+        return False, "The auction start time cannot be in the past."
+
+    if end <= start:
+        return False, "The end time must be after the start time."
+
+    status = "UPCOMING" if start > now else "LIVE"
 
     if not image:
         image = (
@@ -177,17 +197,18 @@ def create_product(name, category, price, image, description, status, seller):
             """
             INSERT INTO products
             (name, category, seller, price, status, bids,
-             image, description, time)
-            VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?)
+             image, description, time, starts_at, ends_at)
+            VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)
             """,
             (
                 name, category, seller, price, status,
-                image, description,
-                "Starts soon" if status == "UPCOMING" else "Live now"
+                image, description, "Scheduled",
+                start.isoformat(timespec="seconds"),
+                end.isoformat(timespec="seconds")
             )
         )
 
-    return True, "Your product has been listed successfully."
+    return True, "Your product has been scheduled successfully."
 
 
 def get_seller_products(seller):
@@ -229,3 +250,103 @@ def get_user_bids(user_id):
         ).fetchall()
 
     return [dict(row) for row in rows]
+
+
+def initialize_auction_times():
+    """Give older demo listings real times if they do not have any."""
+    now = datetime.now()
+
+    with get_db() as db:
+        rows = db.execute(
+            """
+            SELECT id, status
+            FROM products
+            WHERE starts_at IS NULL OR ends_at IS NULL
+            """
+        ).fetchall()
+
+        for product in rows:
+            if product["status"] == "UPCOMING":
+                start = now + timedelta(hours=1)
+                end = start + timedelta(hours=2)
+            else:
+                start = now - timedelta(hours=1)
+                end = now + timedelta(hours=2)
+
+            db.execute(
+                """
+                UPDATE products
+                SET starts_at = ?, ends_at = ?
+                WHERE id = ?
+                """,
+                (
+                    start.isoformat(timespec="seconds"),
+                    end.isoformat(timespec="seconds"),
+                    product["id"]
+                )
+            )
+
+
+def refresh_auction_statuses():
+    """Update auction states using their scheduled times."""
+    now = datetime.now().isoformat(timespec="seconds")
+
+    with get_db() as db:
+        db.execute(
+            """
+            UPDATE products
+            SET status = 'UPCOMING'
+            WHERE starts_at > ?
+            """,
+            (now,)
+        )
+
+        db.execute(
+            """
+            UPDATE products
+            SET status = 'ENDED'
+            WHERE ends_at <= ?
+            """,
+            (now,)
+        )
+
+        db.execute(
+            """
+            UPDATE products
+            SET status = 'LIVE'
+            WHERE starts_at <= ?
+              AND ends_at > ?
+            """,
+            (now, now)
+        )
+
+
+def get_remaining_time(product):
+    """Return a readable countdown for a product."""
+    if product["status"] == "ENDED":
+        return "Auction ended"
+
+    time_value = (
+        product.get("starts_at")
+        if product["status"] == "UPCOMING"
+        else product.get("ends_at")
+    )
+
+    if not time_value:
+        return product.get("time", "Time unavailable")
+
+    target = datetime.fromisoformat(time_value)
+    difference = target - datetime.now()
+
+    if difference.total_seconds() <= 0:
+        return "Less than a minute"
+
+    total_minutes = int(difference.total_seconds() // 60)
+    days, remaining = divmod(total_minutes, 1440)
+    hours, minutes = divmod(remaining, 60)
+
+    if days:
+        return f"{days}d {hours}h left"
+    if hours:
+        return f"{hours}h {minutes}m left"
+    return f"{minutes} min left"

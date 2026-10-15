@@ -23,11 +23,11 @@ from models.product_model import (
     get_user_reminders,
     create_product,
     get_seller_products,
-    get_user_bids
+    get_user_bids,
+    initialize_auction_times,
+    refresh_auction_statuses,
+    get_remaining_time
 )
-
-
-
 
 app = Flask(__name__)
 app.secret_key = "veyra-demo-change-this-key"
@@ -58,10 +58,16 @@ def admin_required(function):
     return wrapper
 
 
+
 @app.route("/")
 def home():
+    refresh_auction_statuses()
+
     query = request.args.get("q", "").strip()
     products = get_all_products(query)
+
+    for product in products:
+        product["time"] = get_remaining_time(product)
 
     return render_template(
         "index.html",
@@ -204,16 +210,15 @@ def add_product():
 
 @app.route("/product/<int:product_id>")
 def product_detail(product_id):
+    refresh_auction_statuses()
     product = get_product(product_id)
 
     if not product:
         return render_template("errors/404.html"), 404
 
-    return render_template(
-        "product_detail.html",
-        product=product
-    )
+    product["time"] = get_remaining_time(product)
 
+    return render_template("product_detail.html", product=product)
 
 @app.route("/my-bids")
 @login_required
@@ -248,8 +253,9 @@ def admin_delete_product(product_id):
 def not_found(error):
     return render_template("errors/404.html"), 404
 
-
 if __name__ == "__main__":
     init_db()
     seed_products()
+    initialize_auction_times()
+    refresh_auction_statuses()
     app.run(debug=True)

@@ -66,6 +66,14 @@
                             Place Bid
                         </button>
                     </form>
+                
+            {% elif product.status == "ENDED" %}
+                <div class="upcoming-notice">
+                <h3>Auction Ended</h3>
+                <p>This auction is closed. No more bids can be placed.</p>
+                </div>
+            {% endif %}
+
                 {% else %}
                     <p class="login-prompt">
                         Please log in to participate in this auction.
