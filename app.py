@@ -132,6 +132,48 @@ def dashboard():
 
 
 
+@app.route("/seller")
+@login_required
+def seller_dashboard():
+    products = get_seller_products(session["user"])
+    return render_template(
+        "seller/dashboard.html",
+        products=products
+    )
+
+
+@app.route("/seller/add-product", methods=["GET", "POST"])
+@login_required
+def add_product():
+    if request.method == "POST":
+        name = request.form.get("name", "")
+        category = request.form.get("category", "")
+        image = request.form.get("image", "")
+        description = request.form.get("description", "")
+        status = request.form.get("status", "UPCOMING")
+
+        try:
+            price = int(request.form.get("price", "0"))
+        except ValueError:
+            price = 0
+
+        success, message = create_product(
+            name=name,
+            category=category,
+            price=price,
+            image=image,
+            description=description,
+            status=status,
+            seller=session["user"]
+        )
+
+        flash(message, "success" if success else "error")
+
+        if success:
+            return redirect(url_for("seller_dashboard"))
+
+    return render_template("seller/add_product.html")
+
 
 
 

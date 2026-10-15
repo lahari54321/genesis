@@ -821,3 +821,149 @@ button, input {
         margin-left: 0;
     }
 }
+
+
+
+/* ===== VEYRA SELLER PAGES ===== */
+
+.page-section {
+    width: min(1200px, 92%);
+    margin: 40px auto;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.section-heading h1,
+.form-container h1 {
+    margin: 8px 0;
+}
+
+.eyebrow {
+    color: #b99aff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.seller-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 28px 0 40px;
+}
+
+.stat-card {
+    padding: 22px;
+    border: 1px solid #39304f;
+    border-radius: 16px;
+    background: #191525;
+}
+
+.stat-card p {
+    color: #b8afc9;
+    margin: 0 0 10px;
+}
+
+.stat-card h2 {
+    margin: 0;
+    font-size: 2rem;
+    color: #d7c2ff;
+}
+
+.subheading {
+    margin-bottom: 22px;
+}
+
+.empty-state {
+    padding: 45px 20px;
+    border: 1px dashed #55466f;
+    border-radius: 18px;
+    text-align: center;
+    background: #191525;
+}
+
+.empty-state p {
+    color: #b8afc9;
+    margin-bottom: 22px;
+}
+
+.form-section {
+    width: min(680px, 92%);
+    margin: 40px auto;
+}
+
+.form-container {
+    padding: 32px;
+    border: 1px solid #39304f;
+    border-radius: 20px;
+    background: #191525;
+}
+
+.form-description {
+    color: #b8afc9;
+    margin-bottom: 25px;
+}
+
+.seller-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.seller-form label {
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+.seller-form input,
+.seller-form select,
+.seller-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #514563;
+    border-radius: 9px;
+    background: #100d18;
+    color: #ffffff;
+    font: inherit;
+}
+
+.seller-form input:focus,
+.seller-form select:focus,
+.seller-form textarea:focus {
+    outline: 2px solid #9b78e8;
+    border-color: #9b78e8;
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 22px;
+    cursor: pointer;
+}
+
+.form-footer {
+    margin-top: 22px;
+    text-align: center;
+}
+
+.form-footer a {
+    color: #c7aaff;
+    text-decoration: none;
+}
+
+@media (max-width: 650px) {
+    .seller-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .form-container {
+        padding: 22px;
+    }
+}

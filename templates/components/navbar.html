@@ -23,7 +23,8 @@
         {% if session.get('user') %}
             <a href="{{ url_for('dashboard') }}">Reminders</a>
             <a class="button small" href="{{ url_for('logout') }}">Log out</a>
-        {% else %}
+        
+            {% else %}
             <a href="{{ url_for('login') }}">Log in</a>
             <a class="button small" href="{{ url_for('register') }}">Join Veyra ↗</a>
         {% endif %}
