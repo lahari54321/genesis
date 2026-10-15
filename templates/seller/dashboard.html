@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">SELLER CENTRE</p>
+            <h1>My Seller Dashboard</h1>
+            <p>Welcome, {{ session.get('user', 'Seller') }}.</p>
+        </div>
+
+        <a href="{{ url_for('add_product') }}" class="btn btn-primary">
+            + Add Product
+        </a>
+    </div>
+
+    <div class="seller-stats">
+        <div class="stat-card">
+            <p>Total Listings</p>
+            <h2>{{ products|length }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Live Auctions</p>
+            <h2>
+                {{ products|selectattr('status', 'equalto', 'LIVE')|list|length }}
+            </h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Upcoming Auctions</p>
+            <h2>
+                {{ products|selectattr('status', 'equalto', 'UPCOMING')|list|length }}
+            </h2>
+        </div>
+    </div>
+
+    <h2 class="subheading">My Products</h2>
+
+    {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+                {% include "components/product_card.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>No products listed yet</h3>
+            <p>Start selling by adding your first product.</p>
+            <a href="{{ url_for('add_product') }}" class="btn btn-primary">
+                List Your First Product
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

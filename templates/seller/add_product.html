@@ -1,0 +1,80 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<section class="form-section">
+    <div class="form-container seller-form">
+        <p class="eyebrow">SELL ON VEYRA</p>
+        <h1>List a Product</h1>
+        <p class="form-description">
+            Add your item and let buyers discover it.
+        </p>
+
+        <form method="POST" action="{{ url_for('add_product') }}">
+            <label for="name">Product Name *</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="e.g. Vintage Camera"
+                required
+            >
+
+            <label for="category">Category *</label>
+            <select id="category" name="category" required>
+                <option value="">Choose a category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Watches">Watches</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home">Home</option>
+                <option value="Collectibles">Collectibles</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="price">Starting Bid (₹) *</label>
+            <input
+                type="number"
+                id="price"
+                name="price"
+                min="1"
+                step="1"
+                placeholder="Enter starting price"
+                required
+            >
+
+            <label for="status">Auction Status *</label>
+            <select id="status" name="status" required>
+                <option value="UPCOMING">Upcoming</option>
+                <option value="LIVE">Live now</option>
+            </select>
+
+            <label for="image">Product Image URL</label>
+            <input
+                type="url"
+                id="image"
+                name="image"
+                placeholder="https://example.com/image.jpg"
+            >
+
+            <label for="description">Product Description *</label>
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="Describe your product..."
+                required
+            ></textarea>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Publish Listing
+            </button>
+        </form>
+
+        <p class="form-footer">
+            <a href="{{ url_for('seller_dashboard') }}">
+                ← Back to Seller Dashboard
+            </a>
+        </p>
+    </div>
+</section>
+{% endblock %}

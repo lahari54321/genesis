@@ -147,3 +147,58 @@ def get_user_reminders(user_id):
         ).fetchall()
 
     return [dict(row) for row in rows]
+
+
+
+def create_product(name, category, price, image, description, status, seller):
+    name = name.strip()
+    category = category.strip().upper()
+    image = image.strip()
+    description = description.strip()
+
+    if not name or not category or not description:
+        return False, "Please fill in all required fields."
+
+    if price <= 0:
+        return False, "Price must be greater than zero."
+
+    if status not in ("LIVE", "UPCOMING"):
+        return False, "Please select a valid auction status."
+
+    if not image:
+        image = (
+            "https://images.unsplash.com/"
+            "photo-1491553895911-0055eca6402d"
+            "?auto=format&fit=crop&w=900&q=80"
+        )
+
+    with get_db() as db:
+        db.execute(
+            """
+            INSERT INTO products
+            (name, category, seller, price, status, bids,
+             image, description, time)
+            VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?)
+            """,
+            (
+                name, category, seller, price, status,
+                image, description,
+                "Starts soon" if status == "UPCOMING" else "Live now"
+            )
+        )
+
+    return True, "Your product has been listed successfully."
+
+
+def get_seller_products(seller):
+    with get_db() as db:
+        rows = db.execute(
+            """
+            SELECT * FROM products
+            WHERE seller = ?
+            ORDER BY id DESC
+            """,
+            (seller,)
+        ).fetchall()
+
+    return [dict(row) for row in rows]
