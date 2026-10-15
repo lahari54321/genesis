@@ -1,0 +1,53 @@
+
+<article class="auction-card">
+    <div class="auction-image">
+        <img src="{{ product.image }}" alt="{{ product.name }}">
+
+        <span class="status-pill {{ 'is-live' if product.status == 'LIVE' else '' }}">
+            {% if product.status == 'LIVE' %}
+                <i class="live-dot"></i>
+            {% endif %}
+            {{ product.status }}
+        </span>
+
+        <span class="auction-category">{{ product.category }}</span>
+    </div>
+
+    <div class="auction-body">
+        <div class="auction-meta">
+            <span>{{ product.seller }}</span>
+            <span>◷ {{ product.time }}</span>
+        </div>
+
+        <h3>{{ product.name }}</h3>
+        <p class="description">{{ product.description }}</p>
+
+        <div class="bid-row">
+            <div>
+                <span class="muted-label">CURRENT BID</span>
+                <strong>₹{{ "{:,}".format(product.price) }}</strong>
+            </div>
+            <span class="bid-count">♧ {{ product.bids }} bids</span>
+        </div>
+
+        {% if product.status == 'LIVE' %}
+        <form class="bid-controls"
+              method="post"
+              action="{{ url_for('bid', product_id=product.id) }}">
+            <input type="number" name="amount"
+                   min="{{ product.price + 1 }}"
+                   placeholder="Enter bid amount" required>
+            <button class="button bid-button" type="submit">
+                Place bid ↗
+            </button>
+        </form>
+        {% else %}
+        <form method="post"
+              action="{{ url_for('remind', product_id=product.id) }}">
+            <button class="button outline-btn reserve-btn" type="submit">
+                ♧ Remind me
+            </button>
+        </form>
+        {% endif %}
+    </div>
+</article>

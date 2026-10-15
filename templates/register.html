@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block title %}Register — Veyra{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-art">
+        <img
+            src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1000&q=80"
+            alt="Curated objects">
+
+        <div class="auth-art-copy">
+            <span>FIND YOUR SOMETHING</span>
+            <h2>Not just things.<br>Stories worth keeping.</h2>
+        </div>
+    </div>
+
+    <div class="auth-panel">
+        <span class="eyebrow">JOIN THE COLLECTION</span>
+        <h1>Create your account</h1>
+        <p class="muted">Your next great find starts here.</p>
+
+        <form method="post" class="auth-form">
+            <label>Full name</label>
+            <input type="text" name="name"
+                   placeholder="Your name" required>
+
+            <label>Email address</label>
+            <input type="email" name="email"
+                   placeholder="you@example.com" required>
+
+            <label>Password</label>
+            <input type="password" name="password"
+                   placeholder="At least 6 characters"
+                   minlength="6" required>
+
+            <button class="button full-button" type="submit">
+                Create account ↗
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

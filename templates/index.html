@@ -1,142 +1,119 @@
 
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Home | MarketPlace{% endblock %}
+{% block title %}Veyra — Find Your Next Rare Thing{% endblock %}
 
 {% block content %}
 
 <section class="hero">
-    <div class="container hero-content">
-        <p class="eyebrow">YOUR NEXT GREAT FIND</p>
+    <div class="hero-copy">
+        <span class="eyebrow">
+            <span class="live-dot"></span>
+            THE CURATED LIVE MARKETPLACE
+        </span>
 
-        <h1>Discover products you'll love.</h1>
+        <h1>Find your next<br><em>rare thing.</em></h1>
 
         <p>
-            Explore interesting finds from sellers in one convenient place.
+            Discover exceptional pieces, meet independent sellers,
+            and make your next great find through live auctions.
         </p>
 
-        <a href="{{ url_for('products') }}" class="button">
-            Explore Products
-        </a>
-    </div>
-</section>
+        <div class="hero-actions">
+            <a class="button" href="#auctions">
+                Explore live auctions ↗
+            </a>
+            <a class="text-link" href="#discover">
+                Discover the collection →
+            </a>
+        </div>
 
-<section class="categories container">
-    <div class="section-heading">
-        <div>
-            <p class="eyebrow">EXPLORE</p>
-            <h2>Shop by category</h2>
+        <div class="hero-stats">
+            <div>
+                <strong>04</strong>
+                <span>Curated finds</span>
+            </div>
+            <div>
+                <strong>LIVE</strong>
+                <span>Auctions</span>
+            </div>
+            <div>
+                <strong>∞</strong>
+                <span>Things to discover</span>
+            </div>
         </div>
     </div>
 
-    <div class="category-list">
-        <a href="{{ url_for('products') }}" class="category-card">
-            <span class="category-icon">💻</span>
-            <span>Electronics</span>
-        </a>
+    <div class="hero-art">
+        <img
+            src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1200&q=85"
+            alt="Luxury watch">
 
-        <a href="{{ url_for('products') }}" class="category-card">
-            <span class="category-icon">👕</span>
-            <span>Fashion</span>
-        </a>
+        <div class="art-label">
+            <span>FEATURED FIND</span>
+            <h2>Time, reimagined.</h2>
+            <p>Objects with a story.</p>
+        </div>
 
-        <a href="{{ url_for('products') }}" class="category-card">
-            <span class="category-icon">📚</span>
-            <span>Books</span>
-        </a>
-
-        <a href="{{ url_for('products') }}" class="category-card">
-            <span class="category-icon">🏠</span>
-            <span>Home & Living</span>
-        </a>
+        <div class="floating-note">
+            <span class="live-dot"></span>
+            <div>
+                <strong>Auctions are live</strong>
+                <small>Find your next favourite</small>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="featured container">
-    <div class="section-heading">
+<div class="trust-strip">
+    <span>✳ Curated collections</span>
+    <span>◇ Independent sellers</span>
+    <span>◷ Live bidding</span>
+    <span>♡ Finds worth keeping</span>
+</div>
+
+<section class="section" id="discover">
+    <div class="section-head">
         <div>
-            <p class="eyebrow">HANDPICKED FINDS</p>
-            <h2>Featured products</h2>
+            <span class="eyebrow">HANDPICKED FOR YOU</span>
+            <h2>
+                {% if query %}
+                    Search results
+                {% else %}
+                    Discover the collection
+                {% endif %}
+            </h2>
+            <p>One-of-a-kind pieces for curious collectors.</p>
         </div>
-
-        <a href="{{ url_for('products') }}" class="text-link">
-            View all products →
-        </a>
+        <span class="subtle-link">{{ products|length }} FINDS</span>
     </div>
 
-    <div class="product-grid">
-
-        <article class="product-card">
-            <div class="product-image product-image-blue">
-                <span>🎧</span>
-            </div>
-            <div class="product-info">
-                <p class="product-category">Electronics</p>
-                <h3>Wireless Headphones</h3>
-                <p class="product-price">₹1,499</p>
-                <a href="{{ url_for('products') }}" class="product-link">
-                    View product
-                </a>
-            </div>
-        </article>
-
-        <article class="product-card">
-            <div class="product-image product-image-pink">
-                <span>⌚</span>
-            </div>
-            <div class="product-info">
-                <p class="product-category">Accessories</p>
-                <h3>Classic Wrist Watch</h3>
-                <p class="product-price">₹899</p>
-                <a href="{{ url_for('products') }}" class="product-link">
-                    View product
-                </a>
-            </div>
-        </article>
-
-        <article class="product-card">
-            <div class="product-image product-image-green">
-                <span>🎒</span>
-            </div>
-            <div class="product-info">
-                <p class="product-category">Fashion</p>
-                <h3>Everyday Backpack</h3>
-                <p class="product-price">₹749</p>
-                <a href="{{ url_for('products') }}" class="product-link">
-                    View product
-                </a>
-            </div>
-        </article>
-
-        <article class="product-card">
-            <div class="product-image product-image-yellow">
-                <span>📷</span>
-            </div>
-            <div class="product-info">
-                <p class="product-category">Electronics</p>
-                <h3>Compact Digital Camera</h3>
-                <p class="product-price">₹3,299</p>
-                <a href="{{ url_for('products') }}" class="product-link">
-                    View product
-                </a>
-            </div>
-        </article>
-
+    {% if products %}
+    <div class="auction-grid">
+        {% for product in products %}
+            {% include "components/product_card.html" %}
+        {% endfor %}
     </div>
+    {% else %}
+    <div class="empty-state">
+        <h3>No finds discovered.</h3>
+        <p>Try another product name or category.</p>
+        <a class="button" href="{{ url_for('home') }}">View all finds</a>
+    </div>
+    {% endif %}
 </section>
 
-<section class="seller-banner">
-    <div class="container seller-content">
-        <div>
-            <p class="eyebrow">SELL SOMETHING NEW TO SOMEONE</p>
-            <h2>Have something to sell?</h2>
-            <p>List your products and give them a new home.</p>
-        </div>
-
-        <a href="{{ url_for('register') }}" class="button button-light">
-            Start Selling
-        </a>
+<section class="auction-banner" id="auctions">
+    <div>
+        <span class="eyebrow">THE MOMENT IS YOURS</span>
+        <h2>Good finds don't wait.</h2>
+        <p>
+            Explore live listings, place a bid, and discover something special.
+        </p>
     </div>
+    <a class="button light-button" href="#discover">
+        Browse auctions ↗
+    </a>
 </section>
 
 {% endblock %}

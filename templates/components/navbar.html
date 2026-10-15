@@ -1,34 +1,31 @@
-//naviagtion
-<header class="site-header">
-    <nav class="navbar container" aria-label="Main navigation">
 
-        <a href="{{ url_for('home') }}" class="brand">
-            Market<span>Place</span>
+<header class="topbar">
+    <a class="brand" href="{{ url_for('home') }}">
+        <span class="brand-mark">V</span>
+        veyra<span class="accent">.</span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="{{ url_for('home') }}#discover">Discover</a>
+        <a href="{{ url_for('home') }}#auctions">
+            <span class="live-dot"></span> Live Auctions
         </a>
-
-        <form class="search-form" action="#" method="get">
-            <label class="sr-only" for="site-search">
-                Search products
-            </label>
-
-            <input
-                type="search"
-                id="site-search"
-                name="q"
-                placeholder="Search for anything..."
-            >
-
-            <button type="submit">Search</button>
-        </form>
-
-        <div class="nav-links">
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('products') }}">Products</a>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}" class="nav-register">
-                Register
-            </a>
-        </div>
-
     </nav>
+
+    <form class="searchbox" action="{{ url_for('home') }}" method="get">
+        <span>⌕</span>
+        <input type="search" name="q"
+               placeholder="Search rare finds..."
+               value="{{ request.args.get('q', '') }}">
+    </form>
+
+    <div class="nav-actions">
+        {% if session.get('user') %}
+            <a href="{{ url_for('dashboard') }}">Reminders</a>
+            <a class="button small" href="{{ url_for('logout') }}">Log out</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Log in</a>
+            <a class="button small" href="{{ url_for('register') }}">Join Veyra ↗</a>
+        {% endif %}
+    </div>
 </header>

@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login — Veyra{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-art">
+        <img
+            src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=80"
+            alt="Curated collection">
+
+        <div class="auth-art-copy">
+            <span>THE ART OF THE FIND</span>
+            <h2>Every great find<br>has a beginning.</h2>
+        </div>
+    </div>
+
+    <div class="auth-panel">
+        <span class="eyebrow">WELCOME BACK</span>
+        <h1>Log in to Veyra</h1>
+        <p class="muted">Your next favourite find is waiting.</p>
+
+        <form method="post" class="auth-form">
+            <label>Email address</label>
+            <input type="email" name="email"
+                   placeholder="you@example.com" required>
+
+            <label>Password</label>
+            <input type="password" name="password"
+                   placeholder="Enter your password" required>
+
+            <button class="button full-button" type="submit">
+                Log in ↗
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            New to Veyra?
+            <a href="{{ url_for('register') }}">Create an account</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

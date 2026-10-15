@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Reminders — Veyra{% endblock %}
+
+{% block content %}
+<section class="section dashboard">
+    <span class="eyebrow">YOUR ACCOUNT</span>
+    <h1>My auction reminders</h1>
+    <p class="muted">Keep track of the finds you don't want to miss.</p>
+
+    {% if reminders %}
+        <div class="reminder-list">
+            {% for reminder in reminders %}
+            <div class="reminder-row">
+                <span class="reminder-icon">◷</span>
+                <div>
+                    <strong>{{ reminder.product }}</strong>
+                    <p>Upcoming auction</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>No reminders yet.</h3>
+            <p>Save a reminder for an upcoming auction to see it here.</p>
+            <a class="button" href="{{ url_for('home') }}">Explore finds ↗</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
