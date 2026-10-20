@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { ArrowRight, UserCheck, Eye, EyeOff, ArrowLeft, ShieldCheck, Info } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, ArrowLeft, ShieldCheck, Info } from 'lucide-react';
 
 export const SignIn = () => {
-  const { signIn, signInWithGoogle, quickLogin, isSupabaseConfigured } = useAuth();
+  const { signIn, signInWithGoogle, isSupabaseConfigured } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,11 +37,6 @@ export const SignIn = () => {
     } else {
       setError(res.error || 'Authentication failed. Please verify your credentials.');
     }
-  };
-
-  const handleDemoLogin = (role) => {
-    quickLogin(role);
-    navigate(redirectPath);
   };
 
   const handleGoogleClick = async () => {
@@ -121,55 +116,10 @@ export const SignIn = () => {
               <strong>Connected to Supabase Project: veyra-marketplace</strong>
             ) : (
               <span>
-                <strong>Supabase Setup:</strong> Add your credentials in <code>.env.local</code> to authenticate with your live database. (Demo accounts active below)
+                <strong>Supabase Setup:</strong> Add your credentials in <code>.env.local</code> to authenticate with your live database.
               </span>
             )}
           </span>
-        </div>
-
-        {/* Quick Demo Profiles (for instant local testing) */}
-        <div
-          style={{
-            backgroundColor: '#FFFFFF',
-            border: '1px solid var(--border-color)',
-            borderRadius: 'var(--radius-xs)',
-            padding: '14px',
-            marginBottom: '20px'
-          }}
-        >
-          <span
-            style={{
-              fontSize: '10px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--text-secondary)',
-              display: 'block',
-              marginBottom: '8px',
-              fontWeight: 600
-            }}
-          >
-            Quick 1-Click Demo Profiles
-          </span>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              type="button"
-              onClick={() => handleDemoLogin('collector')}
-              className="btn btn-secondary btn-sm"
-              style={{ flex: 1, height: '34px', fontSize: '11px', backgroundColor: 'var(--bg-primary)' }}
-            >
-              <UserCheck size={13} />
-              <span>Demo Collector</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoLogin('maker')}
-              className="btn btn-secondary btn-sm"
-              style={{ flex: 1, height: '34px', fontSize: '11px', backgroundColor: 'var(--bg-primary)' }}
-            >
-              <UserCheck size={13} />
-              <span>Demo Maker</span>
-            </button>
-          </div>
         </div>
 
         {/* Sign In Form */}
@@ -245,7 +195,7 @@ export const SignIn = () => {
               className="form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="e.g. collector@veyra.art"
+              placeholder="name@example.com"
               required
             />
           </div>

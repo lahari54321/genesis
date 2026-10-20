@@ -399,6 +399,50 @@ img {
   border-radius: var(--radius-xs);
 }
 
+/* Glass Badge / Tag */
+.glass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(248, 247, 244, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 221, 213, 0.85);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  border-radius: var(--radius-xs);
+}
+
+/* Premium Card Hover Utilities */
+.card-interactive {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.24s ease;
+}
+
+.card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
+  border-color: #D4CDC3;
+}
+
+/* Smooth zoom for images */
+.image-zoom-container {
+  overflow: hidden;
+}
+
+.image-zoom-container img {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-interactive:hover .image-zoom-container img {
+  transform: scale(1.035);
+}
+
 /* --------------------------------------------------------------------------
    Subtle Transitions & Motion
    -------------------------------------------------------------------------- */

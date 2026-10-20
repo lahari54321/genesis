@@ -64,9 +64,11 @@ export const Navbar = () => {
           position: 'sticky',
           top: 0,
           zIndex: 900,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'rgba(255, 255, 255, 0.94)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           borderBottom: '1px solid var(--border-color)',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)'
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03)'
         }}
       >
         {/* Main Header Bar */}
@@ -103,7 +105,7 @@ export const Navbar = () => {
               style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: '1.9rem',
-                letterSpacing: '0.18em',
+                letterSpacing: '0.22em',
                 fontWeight: 600,
                 color: 'var(--text-primary)',
                 textTransform: 'uppercase',

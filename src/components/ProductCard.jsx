@@ -9,8 +9,17 @@ export const ProductCard = ({ product, onQuickView }) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
 
   const isFavorited = isInWishlist(product.id);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, 1);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1400);
+  };
 
   return (
     <article
@@ -23,10 +32,9 @@ export const ProductCard = ({ product, onQuickView }) => {
         backgroundColor: '#FFFFFF',
         border: '1px solid var(--border-color)',
         borderRadius: 'var(--radius-xs)',
-        overflow: 'hidden',
-        transition: 'transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease'
+        overflow: 'hidden'
       }}
-      className="marketplace-product-card"
+      className="marketplace-product-card card-interactive"
     >
       {/* Product Image Frame */}
       <div
@@ -190,9 +198,11 @@ export const ProductCard = ({ product, onQuickView }) => {
               <span className="badge-shipping">
                 Free Insured Delivery
               </span>
-              <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
-                • In Stock
-              </span>
+              {product.location && (
+                <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                  • {product.location}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -200,19 +210,23 @@ export const ProductCard = ({ product, onQuickView }) => {
         {/* Direct Action Button */}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
-            onClick={() => addToCart(product, 1)}
-            className="btn btn-primary btn-sm"
+            onClick={handleAddToCart}
+            className="btn btn-sm"
             style={{
               flex: 1,
-              height: '36px',
+              height: '38px',
               fontSize: '12px',
               fontWeight: 600,
               gap: '6px',
-              borderRadius: 'var(--radius-xs)'
+              borderRadius: 'var(--radius-xs)',
+              backgroundColor: justAdded ? 'var(--success-color)' : 'var(--btn-primary)',
+              color: '#FFFFFF',
+              border: `1px solid ${justAdded ? 'var(--success-color)' : 'var(--btn-primary)'}`,
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
-            <ShoppingBag size={14} />
-            <span>Add to Bag</span>
+            {justAdded ? <CheckCircle2 size={14} color="#FFF" /> : <ShoppingBag size={14} />}
+            <span>{justAdded ? 'Added to Bag' : 'Add to Bag'}</span>
           </button>
 
           {onQuickView && (
@@ -220,8 +234,8 @@ export const ProductCard = ({ product, onQuickView }) => {
               onClick={() => onQuickView(product)}
               className="btn btn-secondary btn-sm"
               style={{
-                width: '36px',
-                height: '36px',
+                width: '38px',
+                height: '38px',
                 padding: 0,
                 borderRadius: 'var(--radius-xs)'
               }}
@@ -233,14 +247,6 @@ export const ProductCard = ({ product, onQuickView }) => {
           )}
         </div>
       </div>
-
-      <style>{`
-        .marketplace-product-card:hover {
-          border-color: #cfc8be;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-          transform: translateY(-2px);
-        }
-      `}</style>
     </article>
   );
 };

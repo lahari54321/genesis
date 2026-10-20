@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { RotateCcw, Filter, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { RotateCcw, Filter, SlidersHorizontal, ArrowUpDown, X, ShoppingBag, Sparkles } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { SearchBar } from '../components/SearchBar';
 import { ProductQuickViewModal } from '../components/ProductQuickViewModal';
@@ -269,6 +269,112 @@ export const Explore = () => {
             )}
           </div>
         </div>
+
+        {/* Active Filter Chips */}
+        {(activeCategory !== 'all' || searchTerm || priceRange !== 'all') && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              flexWrap: 'wrap',
+              marginBottom: '24px'
+            }}
+          >
+            <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: 600, textTransform: 'uppercase' }}>
+              Active Filters:
+            </span>
+            {activeCategory !== 'all' && (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '4px 10px',
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid var(--accent-burgundy)',
+                  borderRadius: 'var(--radius-xs)',
+                  fontSize: '11px',
+                  color: 'var(--accent-burgundy)',
+                  fontWeight: 600
+                }}
+              >
+                <span>Category: {categories.find((c) => c.id === activeCategory)?.name || activeCategory}</span>
+                <button
+                  onClick={() => handleCategorySelect('all')}
+                  style={{ color: 'var(--accent-burgundy)', display: 'flex', alignItems: 'center' }}
+                  aria-label="Remove category filter"
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            )}
+            {searchTerm && (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '4px 10px',
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-xs)',
+                  fontSize: '11px',
+                  color: 'var(--text-primary)',
+                  fontWeight: 500
+                }}
+              >
+                <span>Search: "{searchTerm}"</span>
+                <button
+                  onClick={() => handleSearchChange('')}
+                  style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}
+                  aria-label="Clear search filter"
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            )}
+            {priceRange !== 'all' && (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '4px 10px',
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-xs)',
+                  fontSize: '11px',
+                  color: 'var(--text-primary)',
+                  fontWeight: 500
+                }}
+              >
+                <span>
+                  Price: {priceRange === 'under-15k' ? 'Under ₹15,000' : priceRange === '15k-30k' ? '₹15,000 – ₹30,000' : 'Above ₹30,000'}
+                </span>
+                <button
+                  onClick={() => setPriceRange('all')}
+                  style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}
+                  aria-label="Clear price filter"
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            )}
+            <button
+              onClick={handleResetFilters}
+              style={{
+                fontSize: '11px',
+                color: 'var(--accent-burgundy)',
+                textDecoration: 'underline',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              Clear all
+            </button>
+          </div>
+        )}
 
         {/* Product Grid */}
         {filteredProducts.length > 0 ? (

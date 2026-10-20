@@ -240,33 +240,6 @@ export const AuthProvider = ({ children }) => {
     addToast('Signed out successfully.');
   };
 
-  // Fast demo profile switcher for local design testing
-  const quickLogin = (type = 'collector') => {
-    if (type === 'maker') {
-      const maker = {
-        id: 'demo-maker-01',
-        name: 'Kavya Sharma',
-        email: 'kavya@ceramics.studio',
-        role: 'maker',
-        studio: 'Kavya Ceramic Atelier',
-        isSupabase: false
-      };
-      setUser(maker);
-      addToast('Signed in as Demo Maker: Kavya Sharma');
-    } else {
-      const collector = {
-        id: 'demo-collector-01',
-        name: 'Arjun Singhania',
-        email: 'arjun@singhania.art',
-        role: 'collector',
-        tier: 'Private Patron',
-        isSupabase: false
-      };
-      setUser(collector);
-      addToast('Signed in as Demo Collector: Arjun Singhania');
-    }
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -277,7 +250,6 @@ export const AuthProvider = ({ children }) => {
         signUp,
         signInWithGoogle,
         signOut,
-        quickLogin,
         isAuthenticated: !!user,
         isSupabaseConfigured
       }}

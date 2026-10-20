@@ -26,10 +26,9 @@ export const AuctionCard = ({ auction, onOpenBidModal }) => {
         borderRadius: 'var(--radius-xs)',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
-        transition: 'transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease'
+        overflow: 'hidden'
       }}
-      className="marketplace-auction-card"
+      className="marketplace-auction-card card-interactive"
     >
       {/* Visual Frame */}
       <div

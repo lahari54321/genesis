@@ -298,7 +298,7 @@ export const SignUp = () => {
                 className="form-input"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="e.g. Arjun Singhania"
+                placeholder="Enter your full name"
                 required
               />
             </div>
@@ -314,7 +314,7 @@ export const SignUp = () => {
                 className="form-input"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="e.g. arjun@singhania.art"
+                placeholder="name@example.com"
                 required
               />
             </div>
